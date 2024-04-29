@@ -32,4 +32,12 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  .scroll-bar-hidden {
+    overflow-y: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

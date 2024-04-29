@@ -239,7 +239,9 @@ export const AllBooks = () => {
         } else if (filteredPrice.value === 'free') {
             filteredByPrice = filteredByAge.filter((book) => book.price === 0);
         }   else {
-            filteredByPrice = filteredByAge.filter((book) => book.price < filteredPrice.value);
+            filteredByPrice = filteredByAge.filter((book) => {
+                return Number(book.price) < Number(filteredPrice.value);
+            });
         }
 
         return search ? filteredByPrice.filter((book) => book.title.toLowerCase().includes(search.toLowerCase())) : filteredByPrice;
@@ -247,12 +249,12 @@ export const AllBooks = () => {
     },[filteredAge.value, filteredBook.value, filteredPrice.value, search]);
 
     return (
-        <div className="flex flex-wrap -mx-4">
-            <div className="flex w-full justify-between items-center px-4">
-                <div className='flex flex-1 items-center space-x-4'>
-                    <div className='flex items-center space-x-4'>
+        <>
+            <div className="flex flex-col-reverse xl:flex-row xl:space-y-0 w-full justify-between xl:items-center mb-0 lg:mb-2 pb-4 lg:pb-6 border-b border-[#ECEEF3]">
+                <div className='flex flex-1 flex-col space-y-4 lg:space-y-0 lg:flex-row items-center space-x-4 justify-between xl:justify-start'>
+                    <div className='flex items-center space-x-4 w-full scroll-bar-hidden lg:w-auto'>
                         <Select.Root value={filteredBook.value} onValueChange={handleBookFilter} className="relative">
-                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal">
+                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal whitespace-nowrap">
                                 <Select.Value placeholder="All books" />
                                 <Select.Icon className="text-[#1A2849] ml-2">
                                     <ChevronDownIcon size={18} />
@@ -279,7 +281,7 @@ export const AllBooks = () => {
                             </Select.Portal>
                         </Select.Root>
                         <Select.Root value={filteredAge.value} onValueChange={handleAgeFilter} className="relative">
-                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal">
+                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal whitespace-nowrap">
                                 <Select.Value>
                                     {`For: ${filteredAge.label}`}
                                 </Select.Value>
@@ -308,7 +310,7 @@ export const AllBooks = () => {
                             </Select.Portal>
                         </Select.Root>
                         <Select.Root value={filteredPrice.value} onValueChange={handlePriceFilter} className="relative">
-                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal">
+                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal whitespace-nowrap">
                                 <Select.Value>
                                     {`Price: ${filteredPrice.label}`}
                                 </Select.Value>
@@ -337,7 +339,7 @@ export const AllBooks = () => {
                             </Select.Portal>
                         </Select.Root>
                         <Select.Root value={filteredPopularity.value} onValueChange={handlePopularityFilter} className="relative">
-                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal">
+                            <Select.Trigger className="inline-flex items-center focus:outline-none py-2 px-3 border border-[#E6E8EC] bg-white rounded-md text-sm text-[#1A2849] font-sans font-normal whitespace-nowrap">
                                 <Select.Value>
                                     {`Sort by: ${filteredPopularity.label}`}
                                 </Select.Value>
@@ -368,16 +370,18 @@ export const AllBooks = () => {
                     </div>
                     <p className={`${filteredBooks?.length < 1 ? "text-[#FF6565]" : "text-[#091D37]"} text-[14px] font-medium leading-snug font-sans`}>Displaying {filteredBooks?.length} books</p>
                 </div>
-                <div className="inline-flex relative w-[300px] pl-4 pr-12 py-2 rounded border border-[#E6E8EC]">
+                <div className="inline-flex relative w-full xl:w-[300px] pl-4 mb-4 xl:mb-0 pr-12 py-2 rounded border border-[#E6E8EC] focus-within:border-[#AECF6D]">
                     <input type="search" placeholder="Search..." value={search} onChange={handleSearch} className='h-6 w-full focus-within:outline-none border-none font-sans' />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2">
                         <Search size={20} />
                     </span>
                 </div>
             </div>
-            {filteredBooks?.length ? filteredBooks.map((book, index) => {
-                return <Book key={index} {...book} />
-            }) : <div className='flex items-center justify-center h-[500px] w-full'><NotFound /></div>}
-        </div>
+            <div className="flex flex-wrap -mx-4 sm:px-0 px-4">
+                {filteredBooks?.length ? filteredBooks.map((book, index) => {
+                    return <Book key={index} {...book} />
+                }) : <div className='flex items-center justify-center h-[500px] w-full'><NotFound /></div>}
+            </div>
+        </>
     )
 }

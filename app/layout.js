@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       <body className={`${roboto.variable} ${roboto_condensed.variable} bg-[#F2F3F5] bg-no-repeat min-h-screen`}>
         <div className='flex w-full h-[5px] bg-top-border-gradiant'></div>
         <Header />
-        <main className="flex flex-col p-6">
+        <main className="flex flex-col px-4 py-6 md:p-6">
           {children}
         </main>
       </body>
